@@ -21,8 +21,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: |
             tony252/yqhp-gateway
-            tony252/yqhp-auth
-            tony252/yqhp-file
-            tony252/yqhp-console
           short-description: ${{ github.event.repository.description }}
           readme-filepath: ./README.md
