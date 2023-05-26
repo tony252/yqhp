@@ -22,15 +22,15 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: auth
-          path: auth
+          path: auth/auth-web
       - uses: actions/upload-artifact@v3
         with:
           name: console
-          path: console
+          path: console/console-web
       - uses: actions/upload-artifact@v3
         with:
           name: file
-          path: file
+          path: file/file-web
       - uses: actions/upload-artifact@v3
         with:
           name: gateway
