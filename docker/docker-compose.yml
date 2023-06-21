@@ -74,7 +74,7 @@ services:
       - MINIO_ROOT_PASSWORD=yqhp@123..Aa88
 
   yqhp-web-ui:
-    image: "yqhp-web-ui:latest"
+    image: "jiangyitao/yqhp-web-ui:0.0.1"
     networks:
       - yqhp-network
     ports:
@@ -85,27 +85,27 @@ services:
       - yqhp-gateway
 
   yqhp-gateway:
-    image: "yqhp-gateway:latest"
+    image: "jiangyitao/yqhp-gateway:0.0.1"
     networks:
       - yqhp-network
     ports:
       - "18888:18888"
     environment:
       - NACOS_ADDR=nacos:8848
-      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，跨主机调用需要调整为宿主机ip
+      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，设置为宿主机ip
     restart: always
     depends_on:
       - nacos
 
   yqhp-auth:
-    image: "yqhp-auth:latest"
+    image: "jiangyitao/yqhp-auth:0.0.1"
     networks:
       - yqhp-network
     ports:
       - "8811:8811"
     environment:
       - NACOS_ADDR=nacos:8848
-      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，跨主机调用需要调整为宿主机ip
+      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，设置为宿主机ip
       - AUTH_MYSQL_ADDR=mysql:3306
       - AUTH_MYSQL_USERNAME=root
       - AUTH_MYSQL_PWD=yqhp@123..Aa88
@@ -119,15 +119,15 @@ services:
       - redis
 
   yqhp-file:
-    image: "yqhp-file:latest"
+    image: "jiangyitao/yqhp-file:0.0.1"
     networks:
       - yqhp-network
     ports:
       - "8866:8866"
     environment:
       - NACOS_ADDR=nacos:8848
-      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，跨主机调用需要调整为宿主机ip
-      - MINIO_PUBLIC_ENDPOINT=http://minio:9000 # 注意，MINIO_PUBLIC_ENDPOINT是文件上传后返回的下载地址前缀，需要调整为可用的地址，如:http://宿主机地址:9000
+      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，设置为宿主机ip
+      - MINIO_PUBLIC_ENDPOINT=http://127.0.0.1:9000 # 注意，MINIO_PUBLIC_ENDPOINT是文件上传后返回的下载地址前缀，需要调整为可用的地址，如:http://宿主机地址:9000
       - MINIO_ENDPOINT=http://minio:9000
       - MINIO_BUCKET=yqhp
       - MINIO_ACCESS_KEY=yqhp
@@ -138,14 +138,14 @@ services:
       - minio
 
   yqhp-console:
-    image: "yqhp-console:latest"
+    image: "jiangyitao/yqhp-console:0.0.1"
     networks:
       - yqhp-network
     ports:
       - "8887:8887"
     environment:
       - NACOS_ADDR=nacos:8848
-      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，跨主机调用需要调整为宿主机ip
+      - NACOS_DISCOVERY_IP=127.0.0.1 # 该服务注册到nacos的ip，设置为宿主机ip
       - CONSOLE_MYSQL_ADDR=mysql:3306
       - CONSOLE_MYSQL_USERNAME=root
       - CONSOLE_MYSQL_PWD=yqhp@123..Aa88

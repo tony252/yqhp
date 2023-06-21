@@ -1,3 +1,18 @@
+/*
+ *  Copyright https://github.com/yqhp
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yqhp.agent.web.ws.message.handler;
 
 import com.yqhp.agent.common.LocalPortProvider;
@@ -78,10 +93,13 @@ public class StartScrcpyHandler extends DefaultInputHandler<ScrcpyOptions> {
         READ_SCRCPY_FRAME_THREAD_POOL.submit(() -> {
             try {
                 log.info("[{}]start reading frames", deviceDriver.getDeviceId());
-                while (session.isOpen()) {
-                    ByteBuffer frame = scrcpyFrameClient.read();
-                    if (frame != null) blockingQueue.put(frame);
-                }
+                scrcpyFrameClient.readFrame(frame -> {
+                    try {
+                        blockingQueue.put(frame);
+                    } catch (InterruptedException e) {
+                        log.warn("[{}]put frame interrupted", deviceDriver.getDeviceId());
+                    }
+                });
                 log.info("[{}]stop reading frames", deviceDriver.getDeviceId());
             } catch (Throwable cause) {
                 log.info("[{}]stop reading frames, cause: {}", deviceDriver.getDeviceId(),

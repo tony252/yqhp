@@ -15,6 +15,7 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        ip: ${NACOS_DISCOVERY_IP:}
 
   kafka:
     bootstrap-servers: ${KAFKA_SERVERS:127.0.0.1:9094}
@@ -32,12 +33,12 @@ zk:
 
 agent:
   version: @project.version@
-  download-dir: ${user.home}/yqhp/agent/download
+  download-dir: download
   android:
     enabled: true
     adb-path:
     scrcpy-version: 1.25
-    scrcpy-server-path: @project.basedir@/vendor/scrcpy/scrcpy-server-v1.25
+    scrcpy-server-path: vendor/scrcpy/scrcpy-server-v1.25
   iOS:
     realDevice:
       enabled: false
@@ -60,4 +61,4 @@ logging:
   level:
     root: info
   file:
-    name: ${user.home}/yqhp/agent/logs/${spring.application.name}.log
+    name: logs/${spring.application.name}.log
